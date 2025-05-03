@@ -1,0 +1,30 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>In the previous stage, we successfully implemented the <code class="language-python">forward</code> method for the <code class="language-python">TwoLayerNeural</code> class. In this stage, we'll talk about the <code class="language-python">backprop</code> method. The logic here is pretty much the same as for <code class="language-python">OneLayerNeural</code>, although a bit more complicated: for now, there are two matrices of weights — the one between the input and the hidden layers, the other between the hidden and the output layers. It's worth rewatching the video about <a href="https://www.youtube.com/watch?v=tIeHLnjs5U8&amp;list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&amp;index=4" rel="noopener noreferrer nofollow" target="_blank">math under the hood of backpropagation</a>. Try also looking for the backprop formulas on your own if you are struggling with this task.</p>
+<p>In this stage, you need to code the <code class="language-python">backprop</code> method for the class, so it would look like this:</p>
+<pre><code class="language-python">class TwoLayerNeural():
+    def __init__(self, n_features, n_classes):
+        # Your code from the previous stage
+
+    def forward(self, X):
+        # Your code from the previous stage
+
+    def backprop(self, X, y, alpha):
+	    # Calculating gradients for each of
+	    # your weights and biases.
+	    ...
+	    # Updating your weights and biases.
+	    ...
+</code></pre>
+<p>Once you update the <code class="language-python">TwoLayerNeural</code> class, you can go on with testing. Create one <code class="language-python">forward</code> step for the first two items of the training data and then one <code class="language-python">backprop</code> step for the same data. Use <code class="language-python">alpha=0.1</code>. After this, create another <code class="language-python">forward</code> step for the same data and calculate the MSE between the real <code class="language-python">y_train</code> and the ones your model suggests.</p>
+<h5 id="objectives">Objectives</h5>
+<ul>
+<li>Implement the <code class="language-python">backprop</code> method for your two-layer neural network;</li>
+<li>Create a <code class="language-python">forward</code> step for the first two items of your training dataset and proceed with a <code class="language-python">backprop</code> step. Use <code class="language-python">alpha=0.1</code>;</li>
+<li>Use the forward step for the same two items and calculate the MSE between the real <code class="language-python">y_train</code> and the ones your model suggests.</li>
+</ul>
+<h5 id="example">Example</h5>
+<p><strong>Example 1</strong>: <em>an example of the output</em></p>
+<pre><code class="language-python">[0.2]
+</code></pre>
+</div>

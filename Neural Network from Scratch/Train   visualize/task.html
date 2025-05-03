@@ -1,0 +1,30 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>We have created a working model. However, we need to make one more step to start the full training process.</p>
+<p>Neural networks use <strong>batch education</strong>. A dataset is split into subsets with a fixed number of rows. Then you feed your neural network with each subset, one by one. Once a neural network has finished working with every batch, we can say that an <strong>epoch</strong> is completed.</p>
+<p>You need to create a function to perform one learning epoch with a determined batch. To make the function more versatile<span style="color: #ff4363;"><strong> </strong></span>for different models, use <code class="language-python">estimator</code>(your model) and <code class="language-python">alpha</code> as arguments for your function alongside the <code class="language-python">X_train</code> and <code class="language-python">y_train</code>.</p>
+<p>Remember to create one <code class="language-python">forward</code> and one <code class="language-python">backprop</code> step. To track the learning progress, you need to measure the loss function (MSE in our case) after each epoch. You can either return it as a part of your function that trains one epoch or calculate it outside the function. After that, you can start the training. However, you also need to validate the result on an independent part of the dataset which is why we have the <code class="language-python">X_test</code> and <code class="language-python">y_test</code>. We will use the accuracy score as a metric. First, we need to code the <code class="language-python">accuracy</code> function. As a reminder:</p>
+<p><span class="math-tex">\[\text{Accuracy} = \frac{\text{True answered items}}{\text{Total number of items}}\]</span></p>
+<p>However, remember your model returns probabilities for all classes. Think about how to convert those into an actual prediction — one of ten classes that a given sample most probably belongs to.<span style="color: #ff4363;"> </span>Since you need to get the model’s predictions, we suggest passing your model as an argument to the <code class="language-python">accuracy</code> function and creating a <code class="language-python">forward</code> step inside of it.</p>
+<p>To test the <code class="language-python">accuracy</code> function, print the accuracy of a plain model (without <code class="language-python">backprop</code> steps) for <code class="language-python">X_test</code>, <code class="language-python">y_test</code>.</p>
+<p>Finally, we can proceed with a full-training sequence. In our case, it will consist of three steps:</p>
+<ul>
+<li>Carry out one epoch step with the function you’ve coded in this stage;</li>
+<li>Calculate the loss after one training epoch and append it to a loss-logging list. This is why we suggested you calculate the loss directly in your epoch-learning function;</li>
+<li>Calculate the accuracy with the <code class="language-python">X_test</code> and <code class="language-python">y_test</code> and store it in an accuracy-logging list.</li>
+</ul>
+<p>You can use the <code class="language-python">tqdm</code> package to track the process of your epoch training.</p>
+<p>To check that everything is fine, print the accuracy history for the 20 epochs with the batch size of <code class="language-python">100</code> and alpha of <code class="language-python">0.5</code>. After that, feel free to experiment with the hyperparameters to see how the accuracy changes.</p>
+<p>You can use the provided <code class="language-python">plot</code> function to visualize how the loss and accuracy change while the model is training or you can code it on your own.</p>
+<h5 id="objectives">Objectives</h5>
+<ul>
+<li>Create a function to perform a single epoch training. We recommend passing your model and alpha as its arguments alongside the training dataset;</li>
+<li>Code a function to calculate the accuracy with a test dataset. We recommend making the forward step directly in it.</li>
+<li>Print the resulting accuracy of a plain model (without <code class="language-python">backprop</code>, just the initialization). Use <code class="language-python">X_test</code>, <code class="language-python">y_test</code>;</li>
+<li>Put everything together and train your model using 20 epochs, with a batch size of <code class="language-python">100</code> and alpha of <code class="language-python">0.5</code>. Print the final list of accuracies after each epoch.</li>
+</ul>
+<h5 id="example">Example</h5>
+<p><strong>Example 1</strong>: <em>an example of the output</em></p>
+<pre><code class="language-python">[0.2] [0.5, 0.6, 0.7, 0.75, 0.76, 0.77, 0.78, 0.79, 0.8, 0.81, 0.82, 0.83, 0.84, 0.85, 0.86, 0.87, 0.88, 0.89, 0.9, 0.91]
+</code></pre>
+</div>

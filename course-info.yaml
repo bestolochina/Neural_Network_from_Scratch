@@ -1,0 +1,19 @@
+type: hyperskill
+title: Neural Network from Scratch
+language: English
+summary: "<p>Let's train a very simple but fully connected neural network! In this\
+  \ project, we'll create the necessary metric functions and use custom feedforward\
+  \ and backpropagation methods and functions, all done by hand. The dataset for this\
+  \ project is Fashion-MNIST – no more boring number recognition.</p><br/><br/>Learn\
+  \ more at <a href=\"https://hyperskill.org/projects/250?utm_source=ide&utm_medium=ide&utm_campaign=ide&utm_content=project-card\"\
+  >https://hyperskill.org/projects/250</a>"
+programming_language: Python
+environment: unittest
+content:
+  - Neural Network from Scratch
+additional_files:
+  - name: utils/utils.py
+  - name: utils/__init__.py
+  - name: requirements.txt
+mode: Study
+yaml_version: 2

@@ -1,0 +1,47 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p> </p>
+<p></p><div class="alert alert-primary">Before we start, let's discuss a few things. We have automated the data download process in the <em>.py</em> file provided to you. However, if that is inconvenient, feel free to download the <a href="https://www.dropbox.com/s/5vg67ndkth17mvc/fashion-mnist_train.csv?dl=1" rel="noopener noreferrer nofollow" target="_blank">training</a> and <a href="https://www.dropbox.com/s/9bj5a14unl5os6a/fashion-mnist_test.csv?dl=1" rel="noopener noreferrer nofollow" target="_blank">test</a> datasets on your own.</div>
+<p> </p>
+<p>In this project, we will work on the Fashion-MNIST dataset (you can find more about it <a href="https://www.kaggle.com/datasets/zalando-research/fashionmnist?datasetId=2243" rel="noopener noreferrer nofollow" target="_blank">here</a>). In short, this dataset contains grayscale images of clothing items, <span class="math-tex">\(28\times 28\)</span> pixels each, and there are 10 labels present (such as 'Bag', 'Pullover', 'Coat', etc.).</p>
+<div style="text-align: center;">
+<figure class="image" style=""><picture><source media="(max-width: 480px)" srcset="https://ucarecdn.com/d0ecf1e3-5f89-4c60-9eac-8cddf3a2ff20/-/stretch/off/-/resize/480x/-/format/webp/ 1x,https://ucarecdn.com/d0ecf1e3-5f89-4c60-9eac-8cddf3a2ff20/-/stretch/off/-/resize/960x/-/format/webp/ 2x,https://ucarecdn.com/d0ecf1e3-5f89-4c60-9eac-8cddf3a2ff20/-/stretch/off/-/resize/1440x/-/format/webp/ 3x" type="image/webp"/><source media="(max-width: 800px)" srcset="https://ucarecdn.com/d0ecf1e3-5f89-4c60-9eac-8cddf3a2ff20/-/stretch/off/-/resize/800x/-/format/webp/ 1x,https://ucarecdn.com/d0ecf1e3-5f89-4c60-9eac-8cddf3a2ff20/-/stretch/off/-/resize/1600x/-/format/webp/ 2x,https://ucarecdn.com/d0ecf1e3-5f89-4c60-9eac-8cddf3a2ff20/-/stretch/off/-/resize/2400x/-/format/webp/ 3x" type="image/webp"/><source srcset="https://ucarecdn.com/d0ecf1e3-5f89-4c60-9eac-8cddf3a2ff20/-/stretch/off/-/resize/1100x/-/format/webp/ 1x,https://ucarecdn.com/d0ecf1e3-5f89-4c60-9eac-8cddf3a2ff20/-/stretch/off/-/resize/2200x/-/format/webp/ 2x,https://ucarecdn.com/d0ecf1e3-5f89-4c60-9eac-8cddf3a2ff20/-/stretch/off/-/resize/3000x/-/format/webp/ 3x" type="image/webp"/><img alt="A sample from the Fashion-MNIST dataset" height="840" name="fashion-mnist-sprite.png" src="https://ucarecdn.com/d0ecf1e3-5f89-4c60-9eac-8cddf3a2ff20/" width="840"/></picture>
+<figcaption>A sample from the Fashion-MNIST dataset (<a href="https://github.com/zalandoresearch/fashion-mnist" rel="noopener noreferrer nofollow" target="_blank">source</a>)</figcaption>
+</figure>
+</div>
+<p>We've already imported the data and split it for you into <code class="language-python">X</code> and <code class="language-python">y</code> arrays.</p>
+<p>First things first! You need to <strong>rescale</strong> your data since neural networks don’t like big numbers. A good idea to turn big numbers into small ones across the whole dataset is to divide every feature by the maximal feature value:</p>
+<p><span class="math-tex">\[X_{\text{new}} = \frac{X}{\max(X)}\]</span></p>
+<p>You can do it with a function:</p>
+<pre><code class="language-python">def scale(X_train, X_test):
+	return # Rescaled X_train, X_test
+</code></pre>
+<p> Next, you need to code the <strong>Xavier initialization </strong>function. Just as a reminder, it looks like this:<span class="math-tex">\[w \sim U[-\frac{\sqrt{6}}{\sqrt{n_{in} + n_{out}}}, \frac{\sqrt{6}}{\sqrt{n_{in} + n_{out}}}]\]</span></p>
+<p>where <span class="math-tex">\(n_{in}\)</span> is for the layer input size (in neurons) and <span class="math-tex">\(n_{out}\)</span> is for the layer output size (in neurons). <span class="math-tex">\(U[..]\)</span> means the uniform distribution. Please use the <code class="language-python">numpy.random.uniform()</code> without seed.</p>
+<p>It's very good when your function can be used over and over again, so we're looking forward to something like this:</p>
+<pre><code class="language-python">def xavier(n_in, n_out):
+	return # resulting matrix of weights
+</code></pre>
+<p>Note that the initialization function should return an array of <code class="language-python">(n_in, n_out)</code> shape.</p>
+<p>Finally, we also need the <strong>sigmoid activation</strong> that looks like this:</p>
+<p><span class="math-tex">\[\sigma(x) = \frac{1}{1 + e^{-x}}\]</span></p>
+<p></p><div class="alert alert-primary">Since all the checks are done automatically, there are some rules you need to follow throughout the project so your answers are deemed as correct by the tests:
+
+<ul>
+<li>When it comes to printing <code class="language-python">numpy</code> arrays, use the <code class="language-python">.flatten()</code> method and do not forget to convert the array to a <code class="language-python">list</code> afterwards;</li>
+<li>When it comes to printing multiple items (say, <code class="language-python">a</code>, <code class="language-python">b</code>, <code class="language-python">c</code>), use the <code class="language-python">print(a, b, c)</code>.</li></ul></div>
+<h5 id="objectives">Objectives</h5>
+<ul>
+<li>Create the <code class="language-python">scale</code> function;</li>
+<li>Create the <code class="language-python">xavier</code> function;</li>
+<li>Create the function to calculate the sigmoid;</li>
+<li>Use <code class="language-python">scale</code> to rescale <code class="language-python">X_train</code> and <code class="language-python">X_test</code>;</li>
+<li>Print a list with two values: <span class="math-tex">\([2, 778]\)</span> item of <code class="language-python">X_train</code> and <span class="math-tex">\([0, 774]\)</span> item of <code class="language-python">X_test</code> after rescaling;</li>
+<li>Print the result of the <code class="language-python">xavier</code> function for the <span class="math-tex">\(n_{in} = 2\)</span>, <span class="math-tex">\(n_{out} = 3\)</span> case.</li>
+<li>Print the result of your sigmoid function for the <span class="math-tex">\([-1, 0, 1, 2]\)</span> array.</li>
+</ul>
+<h5 id="example">Example</h5>
+<p><strong>Example 1:</strong> <em>an example of the output</em></p>
+<pre><code class="language-python">[0.0, 0.53] [0.7399504144711144, 0.6602101596654391, 0.8422248665838657, 0.9648901589938088, 0.0530434510597263, 0.7375471674751726] [0.047, 0.88, 0.99, 0.96]
+</code></pre>
+</div>

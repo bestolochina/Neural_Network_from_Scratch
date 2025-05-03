@@ -1,0 +1,10 @@
+type: framework
+content:
+  - Basic functions
+  - Neural network feedforward
+  - Metrics and backpropagation
+  - Train   visualize
+  - Two-layer neural network
+  - Backpropagation with two layers
+  - Train   visualize with two layers
+current_task: 0

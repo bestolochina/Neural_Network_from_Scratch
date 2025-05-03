@@ -1,0 +1,29 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>In the previous stage, we've come up with a bunch of handy functions and rescaled the data. Now, we'll start building our neural network by creating the class and adding the <strong>feedforward.</strong></p>
+<p>Before you dive into the problem we highly recommend you <a href="https://aegeorge42.github.io/" rel="noopener noreferrer nofollow" target="_blank">an interactive tutorial on neural networks</a> by Allison George🧠</p>
+<p>First, we will learn the basics by coding the simplest one-layer neural network. In later steps, we will complicate things by adding the second layer. Take a look at the picture below:</p>
+<p style="text-align: center;"><picture><source media="(max-width: 480px)" srcset="https://ucarecdn.com/e39570c9-af66-4e00-853c-921924108f72/-/stretch/off/-/resize/480x/-/format/webp/ 1x,https://ucarecdn.com/e39570c9-af66-4e00-853c-921924108f72/-/stretch/off/-/resize/960x/-/format/webp/ 2x,https://ucarecdn.com/e39570c9-af66-4e00-853c-921924108f72/-/stretch/off/-/resize/1440x/-/format/webp/ 3x" type="image/webp"/><source media="(max-width: 800px)" srcset="https://ucarecdn.com/e39570c9-af66-4e00-853c-921924108f72/-/stretch/off/-/resize/800x/-/format/webp/ 1x,https://ucarecdn.com/e39570c9-af66-4e00-853c-921924108f72/-/stretch/off/-/resize/1600x/-/format/webp/ 2x,https://ucarecdn.com/e39570c9-af66-4e00-853c-921924108f72/-/stretch/off/-/resize/2400x/-/format/webp/ 3x" type="image/webp"/><source srcset="https://ucarecdn.com/e39570c9-af66-4e00-853c-921924108f72/-/stretch/off/-/resize/1100x/-/format/webp/ 1x,https://ucarecdn.com/e39570c9-af66-4e00-853c-921924108f72/-/stretch/off/-/resize/2200x/-/format/webp/ 2x,https://ucarecdn.com/e39570c9-af66-4e00-853c-921924108f72/-/stretch/off/-/resize/3000x/-/format/webp/ 3x" type="image/webp"/><img alt="One layer fully connected neural network. It basically contains no “hidden” layers and all of the neurons of the input layer are connected with each neuron of the output layer." height="482" name="Untitled.png" src="https://ucarecdn.com/e39570c9-af66-4e00-853c-921924108f72/" width="363"/></picture></p>
+<p>It's one layer of a fully connected neural network. It contains no hidden layers; all of the input-layer neurons are connected with neurons of the output layer.</p>
+<p>To complete this stage, you will need the <code class="language-python">OneLayerNeural</code> class that would look something like this:</p>
+<pre><code class="language-python">class OneLayerNeural:
+    def __init__(self, n_features, n_classes):
+        # Initiate weights and biases using Xavier
+
+    def forward(self, X):
+        # Perform a forward step
+        return ...
+</code></pre>
+<p>We suggest storing the result of the <strong><a href="https://www.youtube.com/watch?v=aircAruvnKk&amp;t=806s" rel="noopener noreferrer nofollow" target="_blank">forward step</a></strong> in a <code class="language-python">self.</code> variable. It will come in handy once you start working on the backpropagation.</p>
+<p>Once you are done with the class, we need to check whether your function works. For that, create an instance of your model with the number of input neurons equal to the number of features you have, and the number of output neurons equal to the number of classes — <code class="language-python">10</code>. After that, apply your model to the first two items (= rows) of the training dataset and print the result.</p>
+<h5 id="objectives">Objectives</h5>
+<ul>
+<li>Create the <code class="language-python">OneLayerNeural</code> class and implement the <code class="language-python">__init__</code> and <code class="language-python">forward</code> methods inside;</li>
+<li>Create a class instance with the number of input neurons equal to the number of features and the number of output neurons equal to the number of classes (<code class="language-python">10</code>);</li>
+<li>Print the result of the model’s feedforward for the first two items of the training dataset.</li>
+</ul>
+<h5 id="example">Example</h5>
+<p><strong>Example 1</strong>: <em>an example of the program output</em></p>
+<pre><code class="language-python">[0.20958963775189265, 0.8270392085632486, 0.722307754981251, 0.2541128158957566, 0.18044091327412398, 0.16085255453923492, 0.2291495292724315, 0.5164048161418893, 0.646176394989437, 0.6939396805954684, 0.311394347512693, 0.5665464164834566, 0.6121017341252446, 0.4438781312319271, 0.3350857415864084, 0.32547896896546347, 0.43611245729339715, 0.49419183444653614, 0.47815964079863255, 0.7062802881684659]
+</code></pre>
+</div>

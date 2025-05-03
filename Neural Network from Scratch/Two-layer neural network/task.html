@@ -1,0 +1,25 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>We have successfully built a one-layer neural network. However, this concept is very basic and not fit for solving difficult tasks. Let us complicate the model by adding a hidden layer of neurons and making it a <strong>two-layer</strong> neural network. We will use 64 neurons in the hidden layer.</p>
+<p>In this stage, you need to code the <code class="language-python">TwoLayerNeural</code> class' <code class="language-python">__init__</code> and <code class="language-python">__forward__</code> methods. And again, <a href="https://www.youtube.com/watch?v=aircAruvnKk&amp;list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&amp;index=1&amp;t=215s" rel="noopener noreferrer nofollow" target="_blank">refresh the concept of neural net layers here</a>. As for the <code class="language-python">OneLayerNeural</code>, use the Xavier initialization for all the weights. In the end, you need to have something like this:</p>
+<pre><code class="language-python">class TwoLayerNeural():
+    def __init__(self, n_features, n_classes):
+        # Initializing weights
+
+    def forward(self, X):
+        # Calculating feedforward
+        return ...
+</code></pre>
+<p>Store the results of each layer in the forward step inside a <code class="language-python">self.</code> variable. It will come in handy once you start adding the backprop steps.</p>
+<p>Once you are done with the class, you need to check whether your function works well. For that, create an instance of your model with the number of input neurons equal to the number of features, and the number of output neurons equal to the number of classes (<code class="language-python">10</code>). After that, apply your model to the first 2 items of the training dataset and print the results.</p>
+<h5 id="objectives">Objectives</h5>
+<ul>
+<li>Create the <code class="language-python">TwoLayerNeural</code> class and implement <code class="language-python">__init__</code> and <code class="language-python">forward</code> methods inside. Remember, we use 64 neurons for the hidden layer;</li>
+<li>Create an instance of the class with input neurons equal to the number of features, and output neurons equal to the number of classes (<code class="language-python">10</code>);</li>
+<li>Print the result of the model’s feedforward for the first two items of the training dataset.</li>
+</ul>
+<h5 id="example">Example</h5>
+<p><strong>Example 1</strong>: <em>an example of the output</em></p>
+<pre><code class="language-python">[0.15005841, 0.76625503, 0.47173647, 0.34488004, 0.48812609, 0.32818126, 0.86251784, 0.41680681, 0.29436668, 0.7576352, 0.11796207, 0.77784541, 0.76433869, 0.42904706, 0.48746877, 0.17740368, 0.57709502, 0.50772825, 0.146656, 0.81716445]
+</code></pre>
+</div>

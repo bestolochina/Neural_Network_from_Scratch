@@ -1,0 +1,37 @@
+<div class="step-text">
+<h5 id="description">Description</h5>
+<p>We have implemented the feedforward method of the <code class="language-python">OneLayerNeural</code> class previously. Now, it is time to implement the actual training part: the <code class="language-python">backprop</code> method. Watch the videos to get <a href="https://www.youtube.com/watch?v=Ilg3gGewQ5U&amp;list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&amp;index=3" rel="noopener noreferrer nofollow" target="_blank">an intuitive understanding of the backpropagation</a> and then <a href="https://www.youtube.com/watch?v=tIeHLnjs5U8&amp;list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&amp;index=4" rel="noopener noreferrer nofollow" target="_blank">dive into math under the hood</a>. Note that at the moment we're implementing a neural net without hidden layers so there is only one matrix of weights.</p>
+<p>Before we get to it, however, we need to create a couple of helper functions. Since we are using the <a href="https://youtu.be/IHZwWFHWa-w?t=181" rel="noopener noreferrer nofollow" target="_blank"><strong>Mean squared error </strong>(MSE)</a> as the simplest loss (= cost) function, we need to implement the function to calculate it. We also need a function to calculate its<strong> gradient</strong> to update our weights, and we need the sigmoid function for calculating the gradient.</p>
+<p>As a reminder, you can calculate all of those as:</p>
+<p><span class="math-tex">\[\text{MSE} = \frac{1}{n}\sum\limits_{i=1}^n\left(y_{i_\text{pred}} - y_{i_\text{true}}\right)^2\\ \text{MSE}'_i = 2 \cdot \left(y_{i_\text{pred}} - y_{i_\text{true}}\right)\\ \sigma'(x) = \sigma(x) \cdot \big(1 - \sigma(x)\big)\]</span></p>
+<p>To test the functions, we would like you to use your functions to calculate the <strong>MSE </strong>and<strong> MSE derivatives</strong> for two arrays: the first one is <span class="math-tex">\([-1, 0, 1, 2]\)</span>, and the second one is <span class="math-tex">\([4, 3, 2, 1]\)</span>. After that, use the first array to calculate the sigmoid derivative.</p>
+<p>Once you've done that, you need to add the <code class="language-python">backprop</code> method to your <code class="language-python">OneLayerNeural</code> class. You can use the following structure:</p>
+<pre><code class="language-python">class OneLayerNeural():
+    def __init__(self, n_features, n_classes):
+        # Your code from the previous stage
+
+    def forward(self, X):
+        # Your code from the previous stage
+
+    def backprop(self, X, y, alpha):
+	    # Calculating gradients for each of
+	    # your weights and biases.
+	    ...
+	    # Updating your weights and biases.
+	    ...
+</code></pre>
+<p>We strongly encourage you to look up the backpropagation formulas on your own.</p>
+<p>Once you update the <code class="language-python">OneLayerNeural</code> class, you can test whether the model goes through the learning steps. Make one<strong> </strong><code class="language-python">forward</code> step for the first two items of the training data<strong> </strong>and then make one<strong> </strong><code class="language-python">backprop</code> step for the same data. Use <code class="language-python">alpha=0.1</code> for your learning rate. After that, create another <code class="language-python">forward</code> step for the same data and calculate the MSE between the real <code class="language-python">y_train</code> and the ones your model suggests.</p>
+<h5 id="objectives">Objectives</h5>
+<ul>
+<li>Code the MSE, MSE and Sigmoid derivatives functions;</li>
+<li>Use the <span class="math-tex">\([-1, 0, 1, 2]\)</span> and <span class="math-tex">\([4, 3, 2, 1]\)</span> arrays to test your MSE and the MSE derivative functions. Use the first array to test your Sigmoid derivative function;</li>
+<li>Implement the <code class="language-python">backprop</code> method for your neural network;</li>
+<li>Make the <code class="language-python">forward</code> step for the first two items of your training dataset and proceed with a <code class="language-python">backprop</code> step. Use <code class="language-python">alpha=0.1</code>;</li>
+<li>Use the forward step for the same two items and calculate the MSE between the actual <code class="language-python">y_train</code> and the ones your model suggests.</li>
+</ul>
+<h5 id="example">Example</h5>
+<p><strong>Example 1</strong>: <em>an example of your program output</em></p>
+<pre><code class="language-python">[5.0] [-6, -2, 2, 6] [0.006648056670790155, 0.04517665973091214, 0.1049935854035065, 0.19661193324148185] [0.03266505049350197]
+</code></pre>
+</div>
