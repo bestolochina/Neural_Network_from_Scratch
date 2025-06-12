@@ -11,9 +11,5 @@ programming_language: Python
 environment: unittest
 content:
   - Neural Network from Scratch
-additional_files:
-  - name: utils/utils.py
-  - name: utils/__init__.py
-  - name: requirements.txt
 mode: Study
-yaml_version: 2
+yaml_version: 3

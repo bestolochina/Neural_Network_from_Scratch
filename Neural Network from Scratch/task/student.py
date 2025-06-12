@@ -78,14 +78,10 @@ if __name__ == '__main__':
 
     # Use scale to rescale X_train and X_test;
     X_train_rescaled, X_test_rescaled = my_module.scale(X_train, X_test)
+    n_samples, n_features = X_train_rescaled.shape
+    n_classes = y_train.shape[1]
 
-    # Print a list with two values: [2,778] item of X_train and [0,774] item of X_test after rescaling;
-    print([float(X_train_rescaled[2, 778]), float(X_test_rescaled[0, 774])], end=' ')
+    model = my_module.OneLayerNeural(n_features=n_features, n_classes=n_classes)
 
-    # Print the result of the xavier function for the nin=2, nout=3 case.
-    xavier_array = my_module.xavier(2, 3)
-    print(xavier_array.flatten().tolist(), end=' ')
-
-    # Print the result of your sigmoid function for the [−1,0,1,2] array.
-    sigmoid_array = my_module.sigmoid(np.array([-1, 0, 1, 2]))
-    print(sigmoid_array.tolist())
+    out = model.forward(X_train_rescaled[:2]).flatten().tolist()
+    print(out)

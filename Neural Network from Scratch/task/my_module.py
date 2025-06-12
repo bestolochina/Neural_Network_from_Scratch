@@ -60,3 +60,19 @@ def sigmoid(x: float | np.ndarray) -> float | np.ndarray:
         float or np.ndarray: Sigmoid of the input, with the same shape as x.
     """
     return 1 / (1 + np.exp(-x))
+
+
+class OneLayerNeural:
+    def __init__(self, n_features: int, n_classes: int) -> None:
+        # Initiate weights and biases using Xavier
+        self.n_features = n_features
+        self.n_classes = n_classes
+        self.weights: np.ndarray = xavier(self.n_features, self.n_classes)
+        self.biases: np.ndarray = xavier(1, self.n_classes)  # np.zeros((n_classes,))
+        self.output: np.ndarray | None = None
+
+    def forward(self, X: np.ndarray) -> np.ndarray:
+        z = X @ self.weights + self.biases
+        a = sigmoid(z)
+        self.output = a
+        return self.output
