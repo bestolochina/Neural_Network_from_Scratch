@@ -64,15 +64,50 @@ def sigmoid(x: float | np.ndarray) -> float | np.ndarray:
 
 class OneLayerNeural:
     def __init__(self, n_features: int, n_classes: int) -> None:
-        # Initiate weights and biases using Xavier
+        """
+        Initializes a one-layer neural network.
+
+        Parameters:
+            n_features (int): Number of input features (size of each input sample).
+            n_classes (int): Number of output classes (number of neurons in output layer).
+
+        Attributes:
+            weights (np.ndarray): Weight matrix of shape (n_features, n_classes), initialized using Xavier.
+            biases (np.ndarray): Bias vector of shape (1, n_classes), initialized using Xavier (non-standard).
+            output (np.ndarray | None): Stores the result of the last forward pass.
+        """
         self.n_features = n_features
         self.n_classes = n_classes
+
+        # Xavier initialization for weights: shape (n_features, n_classes)
         self.weights: np.ndarray = xavier(self.n_features, self.n_classes)
-        self.biases: np.ndarray = xavier(1, self.n_classes)  # np.zeros((n_classes,))
+
+        # Xavier initialization for biases: shape (1, n_classes)
+        # Note: This is task-specific; typical practice uses zeros.
+        self.biases: np.ndarray = xavier(1, self.n_classes)
+
+        # Will hold the output after forward pass
         self.output: np.ndarray | None = None
 
     def forward(self, X: np.ndarray) -> np.ndarray:
-        z = X @ self.weights + self.biases
+        """
+        Performs the forward pass of the neural network using sigmoid activation.
+
+        Parameters:
+            X (np.ndarray): Input data of shape (batch_size, n_features)
+
+        Returns:
+            np.ndarray: Output of the network after applying weights, biases, and activation.
+                        Shape: (batch_size, n_classes)
+        """
+        # Linear transformation: Z = XW + b
+        z = X @ self.weights + self.biases  # (batch_size, n_classes)
+
+        # Non-linear activation using sigmoid
         a = sigmoid(z)
+
+        # Store the result for potential use in backpropagation
         self.output = a
+
         return self.output
+
