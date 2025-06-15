@@ -76,6 +76,13 @@ if __name__ == '__main__':
 
     # write your code here
 
+    arr1, arr2 = np.array([-1,0,1,2]), np.array([4,3,2,1])
+    mse = [float(my_module.mse(arr1, arr2))]
+    mse_derivative = my_module.mse_derivative(arr1, arr2).tolist()
+    sigmoid_derivative = my_module.sigmoid_derivative(arr1).tolist()
+
+    print(mse, mse_derivative, sigmoid_derivative, end=' ')
+
     # Use scale to rescale X_train and X_test;
     X_train_rescaled, X_test_rescaled = my_module.scale(X_train, X_test)
     n_samples, n_features = X_train_rescaled.shape
@@ -83,5 +90,9 @@ if __name__ == '__main__':
 
     model = my_module.OneLayerNeural(n_features=n_features, n_classes=n_classes)
 
-    out = model.forward(X_train_rescaled[:2]).flatten().tolist()
-    print(out)
+    model.forward(X=X_train_rescaled[:2])
+    model.backprop(X=X_test_rescaled[:2], y_true=y_train[:2])
+    model.forward(X=X_train_rescaled[:2])
+    error = [float(my_module.mse(y_pred=model.output, y_true=y_train[:2]))]
+
+    print(error)

@@ -13,5 +13,8 @@ files:
     visible: false
     learner_created: false
 feedback_link: https://hyperskill.org/learn/step/19181#comment
-status: Unchecked
+status: Failed
+feedback:
+  message: "Wrong answer in test #1"
+  time: "Sun, 15 Jun 2025 13:45:59 UTC"
 record: -1

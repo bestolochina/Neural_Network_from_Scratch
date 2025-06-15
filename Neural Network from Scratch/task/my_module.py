@@ -62,6 +62,48 @@ def sigmoid(x: float | np.ndarray) -> float | np.ndarray:
     return 1 / (1 + np.exp(-x))
 
 
+def mse(y_pred: np.ndarray, y_true: np.ndarray) -> float:
+    """
+    Calculate Mean Squared Error (MSE) between predictions and true values.
+
+    Args:
+        y_pred (np.ndarray): Predicted values.
+        y_true (np.ndarray): Ground truth values.
+
+    Returns:
+        float: The mean squared error.
+    """
+    return ((y_pred - y_true) ** 2).mean()
+
+
+def mse_derivative(y_pred: np.ndarray, y_true: np.ndarray) -> np.ndarray:
+    """
+    Compute the gradient (derivative) of the Mean Squared Error with respect to predictions.
+
+    Args:
+        y_pred (np.ndarray): Predicted values.
+        y_true (np.ndarray): Ground truth values.
+
+    Returns:
+        np.ndarray: Derivative of MSE with respect to y_pred.
+    """
+    return 2 * (y_pred - y_true)
+
+
+def sigmoid_derivative(x: float | np.ndarray) -> float | np.ndarray:
+    """
+    Compute the derivative of the sigmoid function.
+
+    Args:
+        x (float | np.ndarray): Input value(s).
+
+    Returns:
+        float | np.ndarray: Derivative of the sigmoid at the given input(s).
+    """
+    sigma = sigmoid(x)
+    return sigma * (1 - sigma)
+
+
 class OneLayerNeural:
     def __init__(self, n_features: int, n_classes: int) -> None:
         """
@@ -110,4 +152,28 @@ class OneLayerNeural:
         self.output = a
 
         return self.output
+
+    def backprop(self, X: np.ndarray, y_true: np.ndarray, alpha: float = 0.1):
+        """
+        Performs one step of backpropagation and updates the model's weights and biases.
+
+        Parameters:
+            X (np.ndarray): Input data of shape (batch_size, n_features).
+            y_true (np.ndarray): True labels of shape (batch_size, n_classes).
+            alpha (float): Learning rate for gradient descent. Default is 0.1.
+
+        The method uses the mean squared error (MSE) loss and sigmoid activation.
+        It assumes that self.output has already been computed via a forward pass.
+        """
+        y_pred = self.output
+        error = mse_derivative(y_pred, y_true)
+        Z = X @ self.weights + self.biases
+        sig_grad = sigmoid_derivative(Z)
+        delta = error * sig_grad  # shape: (batch_size, n_classes)
+        grad_w = X.T @ delta  # shape: (n_features, n_classes)
+        grad_b = np.sum(delta, axis=0, keepdims=True)  # shape: (1, n_classes)
+
+        self.weights -= alpha * grad_w
+        self.biases -= alpha * grad_b
+
 
