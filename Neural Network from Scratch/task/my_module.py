@@ -122,6 +122,7 @@ class OneLayerNeural:
         self.n_classes = n_classes
 
         # Xavier initialization for weights: shape (n_features, n_classes)
+        np.random.seed(2023)
         self.weights: np.ndarray = xavier(self.n_features, self.n_classes)
 
         # Xavier initialization for biases: shape (1, n_classes)
@@ -130,6 +131,7 @@ class OneLayerNeural:
 
         # Will hold the output after forward pass
         self.output: np.ndarray | None = None
+        self.Z: np.ndarray | None = None
 
     def forward(self, X: np.ndarray) -> np.ndarray:
         """
@@ -149,7 +151,8 @@ class OneLayerNeural:
         a = sigmoid(z)
 
         # Store the result for potential use in backpropagation
-        self.output = a
+        self.Z = X @ self.weights + self.biases  # Store Z
+        self.output = sigmoid(self.Z)
 
         return self.output
 
@@ -167,13 +170,10 @@ class OneLayerNeural:
         """
         y_pred = self.output
         error = mse_derivative(y_pred, y_true)
-        Z = X @ self.weights + self.biases
-        sig_grad = sigmoid_derivative(Z)
-        delta = error * sig_grad  # shape: (batch_size, n_classes)
-        grad_w = X.T @ delta  # shape: (n_features, n_classes)
-        grad_b = np.sum(delta, axis=0, keepdims=True)  # shape: (1, n_classes)
+        sig_grad = sigmoid_derivative(self.Z)  # Use Z from the forward pass
+        delta = error * sig_grad
+        grad_w = X.T @ delta
+        grad_b = np.sum(delta, axis=0, keepdims=True)
 
         self.weights -= alpha * grad_w
         self.biases -= alpha * grad_b
-
-
