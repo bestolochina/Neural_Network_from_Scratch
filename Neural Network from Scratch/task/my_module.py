@@ -122,7 +122,7 @@ class OneLayerNeural:
         self.n_classes = n_classes
 
         # Xavier initialization for weights: shape (n_features, n_classes)
-        np.random.seed(2023)
+        # np.random.seed(2023)
         self.weights: np.ndarray = xavier(self.n_features, self.n_classes)
 
         # Xavier initialization for biases: shape (1, n_classes)
@@ -177,3 +177,20 @@ class OneLayerNeural:
 
         self.weights -= alpha * grad_w
         self.biases -= alpha * grad_b
+
+
+def epoch_training(estimator: OneLayerNeural, alpha: float,
+                   X: np.ndarray, y: np.ndarray, batch_size = 100) -> float:
+    indeces = np.random.permutation(len(X))
+    X_shuffled = X[indeces]
+    y_shuffled = y[indeces]
+
+    n_bathes = len(X) // batch_size + (len(X) % batch_size != 0)
+    for i in range(n_bathes):
+        start = i * batch_size
+        end = start + batch_size
+        estimator.forward(X=X_shuffled[start: end])
+        estimator.backprop(X=X_shuffled[start: end], y_true=y_shuffled[start: end], alpha=alpha)
+
+    estimator.forward(X=X_shuffled[start: end])
+    return mse(y_pred=estimator.output, y_true=y_shuffled[start: end])

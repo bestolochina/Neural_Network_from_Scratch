@@ -1,18 +1,19 @@
 import numpy as np
-from hstest import StageTest, TestCase, CheckResult
+from hstest import StageTest, TestCase, CheckResult, PlottingTest
 from hstest.stage_test import List
 from utils.utils import get_list, full_check, custom_uniform
+
 np.random.uniform = custom_uniform
+
 
 # The source data I will test on
 
-true_mse_res = [9.0]
-true_mse_der_res = [-10, -6, -2, 2]
-true_sigmoid_der_res = [0.19661193324148185, 0.25, 0.19661193324148185, 0.10499358540350662]
-true_backprop_res = [0.027703041616827684]
+true_acc_res = [0.0792]
+true_acc_history_res = [0.6438, 0.8349, 0.8429, 0.8456, 0.8466, 0.848, 0.8497, 0.8507, 0.851, 0.8525, 0.8531, 0.8525,
+                        0.8534, 0.8533, 0.8541, 0.8539, 0.854, 0.8541, 0.8543, 0.8549]
 
 
-class Tests3(StageTest):
+class Tests4(PlottingTest):
 
     def generate(self) -> List[TestCase]:
         return [TestCase(time_limit=1000000)]
@@ -23,41 +24,26 @@ class Tests3(StageTest):
         if len(reply) == 0:
             return CheckResult.wrong("No output was printed")
 
-        if reply.count('[') != 4 or reply.count(']') != 4:
+        if reply.count('[') != 2 or reply.count(']') != 2:
             return CheckResult.wrong('No expected lists were found in output')
 
         # Getting the student's results from the reply
 
         try:
-            mse_res, reply = get_list(reply)
+            acc_res, reply = get_list(reply)
         except Exception:
-            return CheckResult.wrong('Seems that MSE output is in wrong format')
+            return CheckResult.wrong('Seems that accuracy output is in wrong format')
 
         try:
-            mse_der_res, reply = get_list(reply)
+            acc_history_res, reply = get_list(reply)
         except Exception:
-            return CheckResult.wrong('Seems that MSE derivative output is in wrong format')
+            return CheckResult.wrong('Seems that accuracy log output is in wrong format')
 
-        try:
-            sigmoid_der_res, reply = get_list(reply)
-        except Exception:
-            return CheckResult.wrong('Seems that sigmoid derivative output is in wrong format')
-
-        try:
-            backprop_res, _ = get_list(reply)
-        except Exception:
-            return CheckResult.wrong('Seems that backpropagation output is in wrong format')
-
-        check_result = full_check(mse_res, true_mse_res, 'MSE')
+        check_result = full_check(acc_res, true_acc_res, 'accuracy')
         if check_result:
             return check_result
-        check_result = full_check(mse_der_res, true_mse_der_res, 'MSE derivative')
-        if check_result:
-            return check_result
-        check_result = full_check(sigmoid_der_res, true_sigmoid_der_res, 'sigmoid derivative')
-        if check_result:
-            return check_result
-        check_result = full_check(backprop_res, true_backprop_res, 'backpropagation')
+
+        check_result = full_check(acc_history_res, true_acc_history_res, 'train sequence')
         if check_result:
             return check_result
 
@@ -65,4 +51,4 @@ class Tests3(StageTest):
 
 
 if __name__ == '__main__':
-    Tests3().run_tests()
+    Tests4().run_tests()
