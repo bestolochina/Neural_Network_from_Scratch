@@ -89,7 +89,8 @@ def mse_derivative(y_pred: np.ndarray, y_true: np.ndarray) -> np.ndarray:
     Returns:
         np.ndarray: Derivative of MSE with respect to y_pred.
     """
-    return 2 * (y_pred - y_true)
+    # return 2 * (y_pred - y_true)
+    return (y_pred - y_true) * (2 / y_true.shape[0])
 
 
 def sigmoid_derivative(x: float | np.ndarray) -> float | np.ndarray:
@@ -146,16 +147,8 @@ class OneLayerNeural:
             np.ndarray: Output of the network after applying weights, biases, and activation.
                         Shape: (batch_size, n_classes)
         """
-        # Linear transformation: Z = XW + b
-        z = X @ self.weights + self.biases  # (batch_size, n_classes)
-
-        # Non-linear activation using sigmoid
-        a = sigmoid(z)
-
-        # Store the result for potential use in backpropagation
-        self.Z = X @ self.weights + self.biases  # Store Z
+        self.Z = X @ self.weights + self.biases
         self.output = sigmoid(self.Z)
-
         return self.output
 
     def backprop(self, X: np.ndarray, y_true: np.ndarray, alpha: float = 0.1):
@@ -170,11 +163,11 @@ class OneLayerNeural:
         The method uses the mean squared error (MSE) loss and sigmoid activation.
         It assumes that self.output has already been computed via a forward pass.
         """
-        y_pred = self.output
-        error = mse_derivative(y_pred, y_true)
-        sig_grad = sigmoid_derivative(self.Z)  # Use Z from the forward pass
-        delta = error * sig_grad
-        grad_w = X.T @ delta
+        y_pred = self.output  # From forward()
+        error = mse_derivative(y_pred, y_true)  # dL/dA
+        sig_grad = sigmoid_derivative(self.Z)  # dA/dZ
+        delta = error * sig_grad  # dL/dZ
+        grad_w = X.T @ delta  # dL/dW
         grad_b = np.sum(delta, axis=0, keepdims=True)
 
         self.weights -= alpha * grad_w
