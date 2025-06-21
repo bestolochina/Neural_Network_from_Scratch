@@ -4,6 +4,7 @@ import os
 import requests
 from matplotlib import pyplot as plt
 import my_module
+from tqdm import tqdm
 
 
 # scroll to the bottom to start coding your solution
@@ -83,13 +84,17 @@ if __name__ == '__main__':
 
     model = my_module.OneLayerNeural(n_features=n_features, n_classes=n_classes)
 
-    acc = [my_module.accuracy(model, X=X_test_rescaled, y_true=y_test)]
-    print(acc, end=' ')
+    initial_accuracy = [my_module.accuracy(model, X=X_test_rescaled, y_true=y_test)]
 
     loss_logging = []
     accuracy_logging = []
     for epoch in range(20):
-        loss_logging.append(my_module.epoch_training(estimator=model, alpha=0.5,
-                                                     X=X_train_rescaled, y=y_test, batch_size=100))
-        accuracy_logging.append(my_module.accuracy(model, X=X_test_rescaled, y_true=y_test))
+        loss = my_module.epoch_training(estimator=model, alpha=0.5,
+                                        X=X_train_rescaled, y=y_train, batch_size=100)
+        initial_accuracy = my_module.accuracy(model, X=X_test_rescaled, y_true=y_test)
+
+        loss_logging.append(loss)
+        accuracy_logging.append(initial_accuracy)
+
+    print(initial_accuracy, accuracy_logging)
 

@@ -59,7 +59,9 @@ def sigmoid(x: float | np.ndarray) -> float | np.ndarray:
     Returns:
         float or np.ndarray: Sigmoid of the input, with the same shape as x.
     """
-    return 1 / (1 + np.exp(-x))
+    # return 1 / (1 + np.exp(-x))
+    x_clipped = np.clip(x, -500, 500)
+    return 1 / (1 + np.exp(-x_clipped))
 
 
 def mse(y_pred: np.ndarray, y_true: np.ndarray) -> float:
@@ -122,7 +124,7 @@ class OneLayerNeural:
         self.n_classes = n_classes
 
         # Xavier initialization for weights: shape (n_features, n_classes)
-        # np.random.seed(2023)
+        # np.random.seed(3042022)
         self.weights: np.ndarray = xavier(self.n_features, self.n_classes)
 
         # Xavier initialization for biases: shape (1, n_classes)
@@ -205,10 +207,15 @@ def epoch_training(estimator: OneLayerNeural, alpha: float,
         end = start + batch_size
         X_batch = X_shuffled[start:end]
         y_batch = y_shuffled[start:end]
-        estimator.forward(X=X_batch)
-        estimator.backprop(X=X_batch, y_true=y_batch, alpha=alpha)
 
-    return mse(y_pred=estimator.output, y_true=y_batch)
+        # Forward pass
+        y_pred = estimator.forward(X_batch)
+
+        # Backward pass
+        estimator.backprop(X_batch, y_batch, alpha=alpha)
+
+    # Return MSE on the final batch
+    return mse(y_pred, y_batch)
 
 
 def accuracy(estimator: OneLayerNeural, X: np.ndarray, y_true: np.ndarray) -> float:
