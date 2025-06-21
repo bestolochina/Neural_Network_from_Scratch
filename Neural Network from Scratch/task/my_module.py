@@ -180,17 +180,60 @@ class OneLayerNeural:
 
 
 def epoch_training(estimator: OneLayerNeural, alpha: float,
-                   X: np.ndarray, y: np.ndarray, batch_size = 100) -> float:
-    indeces = np.random.permutation(len(X))
-    X_shuffled = X[indeces]
-    y_shuffled = y[indeces]
+                   X: np.ndarray, y: np.ndarray, batch_size=100) -> float:
+    """
+    Performs one training epoch using mini-batch gradient descent.
 
-    n_bathes = len(X) // batch_size + (len(X) % batch_size != 0)
-    for i in range(n_bathes):
+    Args:
+        estimator (OneLayerNeural): The neural network model to be trained.
+        alpha (float): The learning rate for gradient descent.
+        X (np.ndarray): Training input data of shape (n_samples, n_features).
+        y (np.ndarray): True labels (one-hot encoded) of shape (n_samples, n_classes).
+        batch_size (int, optional): The number of samples per training batch. Default is 100.
+
+    Returns:
+        float: Mean squared error (MSE) on the final batch.
+               Note: this may not reflect the overall epoch performance.
+    """
+    indices = np.random.permutation(len(X))
+    X_shuffled = X[indices]
+    y_shuffled = y[indices]
+
+    n_batches = len(X) // batch_size + (len(X) % batch_size != 0)
+    for i in range(n_batches):
         start = i * batch_size
         end = start + batch_size
-        estimator.forward(X=X_shuffled[start: end])
-        estimator.backprop(X=X_shuffled[start: end], y_true=y_shuffled[start: end], alpha=alpha)
+        X_batch = X_shuffled[start:end]
+        y_batch = y_shuffled[start:end]
+        estimator.forward(X=X_batch)
+        estimator.backprop(X=X_batch, y_true=y_batch, alpha=alpha)
 
-    estimator.forward(X=X_shuffled[start: end])
-    return mse(y_pred=estimator.output, y_true=y_shuffled[start: end])
+    return mse(y_pred=estimator.output, y_true=y_batch)
+
+
+def accuracy(estimator: OneLayerNeural, X: np.ndarray, y_true: np.ndarray) -> float:
+    """
+    Compute the classification accuracy of a model on a given dataset.
+
+    This function performs a forward pass through the model to get predicted
+    probabilities, converts them to class predictions using argmax, and compares
+    them to the true class indices (assumed to be one-hot encoded).
+
+    Parameters:
+    ----------
+    estimator : OneLayerNeural
+        The trained model with a forward method that outputs class probabilities.
+    X : np.ndarray
+        The input features of shape (n_samples, n_features).
+    y_true : np.ndarray
+        The true labels in one-hot encoded format of shape (n_samples, n_classes).
+
+    Returns:
+    -------
+    float
+        The classification accuracy, i.e., the proportion of correctly predicted samples.
+    """
+    y_predicted = np.argmax(estimator.forward(X), axis=1)
+    y_true_indices = np.argmax(y_true, axis=1)
+    accuracy_ = float(np.mean(y_predicted == y_true_indices))
+    return accuracy_

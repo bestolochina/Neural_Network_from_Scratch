@@ -96,7 +96,3 @@ if __name__ == '__main__':
     error = [float(my_module.mse(y_pred=model.output, y_true=y_train[:2]))]
     # print('[0.027703041616827684]')
     print(error)
-# true_mse_res = [9.0]
-# true_mse_der_res = [-10, -6, -2, 2]
-# true_sigmoid_der_res = [0.19661193324148185, 0.25, 0.19661193324148185, 0.10499358540350662]
-# true_backprop_res = [0.027703041616827684]
