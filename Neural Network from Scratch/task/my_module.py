@@ -213,25 +213,19 @@ def epoch_training(estimator: OneLayerNeural, alpha: float,
 
 def accuracy(estimator: OneLayerNeural, X: np.ndarray, y_true: np.ndarray) -> float:
     """
-    Compute the classification accuracy of a model on a given dataset.
+    Compute the classification accuracy of a one-layer neural network.
 
-    This function performs a forward pass through the model to get predicted
-    probabilities, converts them to class predictions using argmax, and compares
-    them to the true class indices (assumed to be one-hot encoded).
+    The model's predictions are obtained via a forward pass and compared to the true labels.
+    Both predictions and ground truth are assumed to be in one-hot encoded format, and
+    classification is done by selecting the index of the maximum value (argmax) along axis=1.
 
     Parameters:
-    ----------
-    estimator : OneLayerNeural
-        The trained model with a forward method that outputs class probabilities.
-    X : np.ndarray
-        The input features of shape (n_samples, n_features).
-    y_true : np.ndarray
-        The true labels in one-hot encoded format of shape (n_samples, n_classes).
+        estimator (OneLayerNeural): The neural network model to evaluate.
+        X (np.ndarray): Input features of shape (n_samples, n_features).
+        y_true (np.ndarray): One-hot encoded true labels of shape (n_samples, n_classes).
 
     Returns:
-    -------
-    float
-        The classification accuracy, i.e., the proportion of correctly predicted samples.
+        float: The classification accuracy, i.e., the proportion of correctly predicted samples.
     """
     y_predicted = np.argmax(estimator.forward(X), axis=1)
     y_true_indices = np.argmax(y_true, axis=1)
