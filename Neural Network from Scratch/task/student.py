@@ -89,8 +89,6 @@ if __name__ == '__main__':
 
     initial_accuracy = [my_module.accuracy(model, X=X_test_rescaled, y_true=y_test)]
 
-    model = my_module.OneLayerNeural(n_features=n_features, n_classes=n_classes)
-
     loss_logging = []
     accuracy_logging = []
     for epoch in range(20):
@@ -102,4 +100,6 @@ if __name__ == '__main__':
         accuracy_logging.append(accuracy)
 
     print(initial_accuracy, accuracy_logging)
+
+    plot(loss_history=loss_logging, accuracy_history=accuracy_logging)
 

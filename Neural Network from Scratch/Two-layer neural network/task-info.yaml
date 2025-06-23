@@ -12,6 +12,10 @@ files:
   - name: tests.py
     visible: false
     learner_created: false
+  - name: plot.png
+    visible: true
+    is_binary: true
+    learner_created: true
 feedback_link: https://hyperskill.org/learn/step/19183#comment
 status: Unchecked
-record: -1
+record: 5

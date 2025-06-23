@@ -174,6 +174,60 @@ class OneLayerNeural:
         self.biases -= alpha * grad_b
 
 
+class TwoLayerNeural:
+    """
+    A simple two-layer fully connected neural network using sigmoid activations.
+
+    Architecture:
+        - Input layer with `n_features` units.
+        - Hidden layer with 64 neurons and sigmoid activation.
+        - Output layer with `n_classes` neurons and sigmoid activation.
+
+    Xavier initialization is used for weights and biases to maintain the variance of activations through layers.
+    """
+
+    def __init__(self, n_features: int, n_classes: int) -> None:
+        """
+        Initializes the network's parameters with Xavier initialization.
+
+        Args:
+            n_features (int): Number of input features.
+            n_classes (int): Number of output classes.
+        """
+        self.n_features = n_features
+        self.n_classes = n_classes
+
+        # Xavier-initialized weights
+        self.weights1: np.ndarray = xavier(self.n_features, 64)
+        self.weights2: np.ndarray = xavier(64, self.n_classes)
+
+        # Xavier-initialized biases
+        self.biases1: np.ndarray = xavier(1, 64)
+        self.biases2: np.ndarray = xavier(1, self.n_classes)
+
+        # Intermediate variables to store layer outputs
+        self.Z1: np.ndarray | None = None  # Linear output of layer 1
+        self.A1: np.ndarray | None = None  # Activation output of layer 1
+        self.Z2: np.ndarray | None = None  # Linear output of layer 2
+        self.A2: np.ndarray | None = None  # Final output (after activation)
+
+    def forward(self, X: np.ndarray) -> np.ndarray:
+        """
+        Performs the forward pass of the neural network.
+
+        Args:
+            X (np.ndarray): Input data of shape (batch_size, n_features)
+
+        Returns:
+            np.ndarray: Output predictions of shape (batch_size, n_classes)
+        """
+        self.Z1 = X @ self.weights1 + self.biases1      # Hidden layer linear transformation
+        self.A1 = sigmoid(self.Z1)                      # Hidden layer activation
+        self.Z2 = self.A1 @ self.weights2 + self.biases2  # Output layer linear transformation
+        self.A2 = sigmoid(self.Z2)                      # Output layer activation
+        return self.A2
+
+
 def epoch_training(estimator: OneLayerNeural, alpha: float,
                    X: np.ndarray, y: np.ndarray, batch_size=100) -> float:
     """
@@ -190,9 +244,11 @@ def epoch_training(estimator: OneLayerNeural, alpha: float,
         float: Mean squared error (MSE) on the final batch.
                Note: this may not reflect the overall epoch performance.
     """
-    indices = np.random.permutation(len(X))
-    X_shuffled = X[indices]
-    y_shuffled = y[indices]
+    # indices = np.random.permutation(len(X))
+    # X_shuffled = X[indices]
+    # y_shuffled = y[indices]
+    X_shuffled = X
+    y_shuffled = y
 
     n_batches = len(X) // batch_size + (len(X) % batch_size != 0)
     for i in range(n_batches):
