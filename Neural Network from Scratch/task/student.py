@@ -85,21 +85,7 @@ if __name__ == '__main__':
     n_samples, n_features = X_train_rescaled.shape
     n_classes = y_train.shape[1]
 
-    model = my_module.OneLayerNeural(n_features=n_features, n_classes=n_classes)
+    model = my_module.TwoLayerNeural(n_features=n_features, n_classes=n_classes)
+    predictions = model.forward(X=X_train_rescaled[:2])
 
-    initial_accuracy = [my_module.accuracy(model, X=X_test_rescaled, y_true=y_test)]
-
-    loss_logging = []
-    accuracy_logging = []
-    for epoch in range(20):
-        loss = my_module.epoch_training(estimator=model, alpha=0.5,
-                                        X=X_train_rescaled, y=y_train, batch_size=100)
-        accuracy = my_module.accuracy(model, X=X_test_rescaled, y_true=y_test)
-
-        loss_logging.append(loss)
-        accuracy_logging.append(accuracy)
-
-    print(initial_accuracy, accuracy_logging)
-
-    plot(loss_history=loss_logging, accuracy_history=accuracy_logging)
-
+    print(predictions.flatten().tolist())
