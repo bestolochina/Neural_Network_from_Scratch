@@ -107,73 +107,6 @@ def sigmoid_derivative(x: float | np.ndarray) -> float | np.ndarray:
     return sigma * (1 - sigma)
 
 
-class OneLayerNeural:
-    def __init__(self, n_features: int, n_classes: int) -> None:
-        """
-        Initializes a one-layer neural network.
-
-        Parameters:
-            n_features (int): Number of input features (size of each input sample).
-            n_classes (int): Number of output classes (number of neurons in output layer).
-
-        Attributes:
-            weights (np.ndarray): Weight matrix of shape (n_features, n_classes), initialized using Xavier.
-            biases (np.ndarray): Bias vector of shape (1, n_classes), initialized using Xavier (non-standard).
-            output (np.ndarray | None): Stores the result of the last forward pass.
-        """
-        self.n_features = n_features
-        self.n_classes = n_classes
-
-        # Xavier initialization for weights: shape (n_features, n_classes)
-        # np.random.seed(3042022)
-        self.weights: np.ndarray = xavier(self.n_features, self.n_classes)
-
-        # Xavier initialization for biases: shape (1, n_classes)
-        # Note: This is task-specific; typical practice uses zeros.
-        self.biases: np.ndarray = xavier(1, self.n_classes)
-
-        # Will hold the output after forward pass
-        self.output: np.ndarray | None = None
-        self.Z: np.ndarray | None = None
-
-    def forward(self, X: np.ndarray) -> np.ndarray:
-        """
-        Performs the forward pass of the neural network using sigmoid activation.
-
-        Parameters:
-            X (np.ndarray): Input data of shape (batch_size, n_features)
-
-        Returns:
-            np.ndarray: Output of the network after applying weights, biases, and activation.
-                        Shape: (batch_size, n_classes)
-        """
-        self.Z = X @ self.weights + self.biases
-        self.output = sigmoid(self.Z)
-        return self.output
-
-    def backprop(self, X: np.ndarray, y_true: np.ndarray, alpha: float = 0.1):
-        """
-        Performs one step of backpropagation and updates the model's weights and biases.
-
-        Parameters:
-            X (np.ndarray): Input data of shape (batch_size, n_features).
-            y_true (np.ndarray): True labels of shape (batch_size, n_classes).
-            alpha (float): Learning rate for gradient descent. Default is 0.1.
-
-        The method uses the mean squared error (MSE) loss and sigmoid activation.
-        It assumes that self.output has already been computed via a forward pass.
-        """
-        y_pred = self.output  # From forward()
-        error = mse_derivative(y_pred, y_true)  # dL/dA
-        sig_grad = sigmoid_derivative(self.Z)  # dA/dZ
-        delta = error * sig_grad  # dL/dZ
-        grad_w = X.T @ delta  # dL/dW
-        grad_b = np.sum(delta, axis=0, keepdims=True)
-
-        self.weights -= alpha * grad_w
-        self.biases -= alpha * grad_b
-
-
 class TwoLayerNeural:
     """
     A simple two-layer fully connected neural network using sigmoid activations.
@@ -226,6 +159,48 @@ class TwoLayerNeural:
         self.Z2 = self.A1 @ self.weights2 + self.biases2  # Output layer linear transformation
         self.A2 = sigmoid(self.Z2)                      # Output layer activation
         return self.A2
+
+    def backprop(self, X: np.ndarray, y_true: np.ndarray, alpha: float = 0.1) -> None:
+        """
+        Performs backpropagation for the two-layer neural network using Mean Squared Error loss
+        and sigmoid activation functions. Updates weights and biases in both layers using the
+        gradients computed from the current batch.
+
+        Args:
+            X (np.ndarray): Input batch of shape (batch_size, n_features).
+            y_true (np.ndarray): Ground truth labels (one-hot) of shape (batch_size, n_classes).
+            alpha (float): Learning rate. Defaults to 0.1.
+        """
+        # --- Step 1: Output layer gradients ---
+
+        # Derivative of loss w.r.t. output activations (A2)
+        dL_dA2 = mse_derivative(self.A2, y_true)
+
+        # Derivative of activation function at output (Z2)
+        dA2_dZ2 = sigmoid_derivative(self.Z2)
+
+        # delta2 = gradient of loss w.r.t. Z2 (pre-activation)
+        delta2 = dL_dA2 * dA2_dZ2  # shape: (batch_size, n_classes)
+
+        # Gradient w.r.t. weights and biases in second (output) layer
+        grad_w2 = self.A1.T @ delta2  # shape: (64, n_classes)
+        grad_b2 = np.sum(delta2, axis=0, keepdims=True)  # shape: (1, n_classes)
+
+        # --- Step 2: Hidden layer gradients ---
+
+        # Propagate error back through W2 and apply derivative of activation
+        delta1 = (delta2 @ self.weights2.T) * sigmoid_derivative(self.Z1)  # shape: (batch_size, 64)
+
+        # Gradient w.r.t. weights and biases in first (hidden) layer
+        grad_w1 = X.T @ delta1  # shape: (n_features, 64)
+        grad_b1 = np.sum(delta1, axis=0, keepdims=True)  # shape: (1, 64)
+
+        # --- Step 3: Update parameters ---
+
+        self.weights2 -= alpha * grad_w2
+        self.biases2 -= alpha * grad_b2
+        self.weights1 -= alpha * grad_w1
+        self.biases1 -= alpha * grad_b1
 
 
 def epoch_training(estimator: OneLayerNeural, alpha: float,
