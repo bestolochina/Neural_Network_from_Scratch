@@ -86,6 +86,8 @@ if __name__ == '__main__':
     n_classes = y_train.shape[1]
 
     model = my_module.TwoLayerNeural(n_features=n_features, n_classes=n_classes)
+    model.forward(X=X_train_rescaled[:2])
+    model.backprop(X=X_train_rescaled[:2], y_true=y_train[:2], alpha=0.1)
     predictions = model.forward(X=X_train_rescaled[:2])
 
-    print(predictions.flatten().tolist())
+    print([float(my_module.mse(y_pred=predictions, y_true=y_train[:2]))])

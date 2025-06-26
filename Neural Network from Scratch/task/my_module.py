@@ -203,7 +203,7 @@ class TwoLayerNeural:
         self.biases1 -= alpha * grad_b1
 
 
-def epoch_training(estimator: OneLayerNeural, alpha: float,
+def epoch_training(estimator: TwoLayerNeural, alpha: float,
                    X: np.ndarray, y: np.ndarray, batch_size=100) -> float:
     """
     Performs one training epoch using mini-batch gradient descent.
@@ -242,7 +242,7 @@ def epoch_training(estimator: OneLayerNeural, alpha: float,
     return mse(y_pred, y_batch)
 
 
-def accuracy(estimator: OneLayerNeural, X: np.ndarray, y_true: np.ndarray) -> float:
+def accuracy(estimator: TwoLayerNeural, X: np.ndarray, y_true: np.ndarray) -> float:
     """
     Compute the classification accuracy of a one-layer neural network.
 
