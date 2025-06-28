@@ -1,3 +1,3 @@
-from test.tests import Tests6
+from test.tests import Tests7
 
-if __name__ == '__main__':    Tests6().run_tests()
+if __name__ == '__main__':    Tests7().run_tests()

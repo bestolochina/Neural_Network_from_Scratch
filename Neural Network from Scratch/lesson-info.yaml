@@ -6,5 +6,5 @@ content:
   - Train   visualize
   - Two-layer neural network
   - Backpropagation with two layers
-  - Train   visualize with two layers
-current_task: 5
+  - Train & visualize with two layers
+current_task: 6
